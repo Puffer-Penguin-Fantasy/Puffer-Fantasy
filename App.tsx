@@ -84,6 +84,9 @@ const App: React.FC = () => {
     if (gameState.state === 'COUNTDOWN') {
       setCountdownValue(3);
       let count = 3;
+      // Play first countdown tick immediately
+      playForeground(getPath("/media/audio/sfx/global/countdown.mp3"), 0.6);
+      
       interval = setInterval(() => {
         count -= 1;
         if (count === 0) {
@@ -91,6 +94,7 @@ const App: React.FC = () => {
           setGameState(prev => ({ ...prev, state: 'AIMING' }));
         } else {
           setCountdownValue(count);
+          playForeground(getPath("/media/audio/sfx/global/countdown.mp3"), 0.6);
         }
       }, 1000);
     }
@@ -156,18 +160,31 @@ const App: React.FC = () => {
 
   const totalPar = LEVELS.reduce((acc, l) => acc + l.par, 0);
 
-  const { playForeground, preloadCache } = useAudio();
+  const { playForeground, playBackground, preloadCache, soundEnabled, setSoundEnabled } = useAudio();
 
   const audioFiles = [
     getPath("/media/audio/sfx/global/lose.mp3"),
     getPath("/media/audio/sfx/global/win.mp3"),
     getPath("/media/audio/sfx/global/buttonclick.mp3"),
+    getPath("/media/audio/sfx/global/countdown.mp3"),
     getPath("/media/audio/sfx/minigolf/goal.mp3"),
     getPath("/media/audio/sfx/minigolf/hitwall.mp3"),
     getPath("/media/audio/sfx/minigolf/intohole.mp3"),
     getPath("/media/audio/sfx/minigolf/outofholehole.mp3"),
     getPath("/media/audio/sfx/minigolf/putt.mp3"),
+    getPath("/media/audio/sfx/minigolf/watersplash.mp3"),
+    getPath("/media/audio/sfx/minigolf/sand.mp3"),
+    getPath("/media/audio/music/background.mp3"),
   ];
+
+  // Handle Background Music
+  useEffect(() => {
+    if (gameState.state === 'HOME_SCREEN' || gameState.state === 'LEVEL_SELECT') {
+      playBackground(getPath("/media/audio/music/background.mp3"), 0.3);
+    } else if (gameState.state === 'AIMING' || gameState.state === 'MOVING' || gameState.state === 'COUNTDOWN') {
+      playBackground(getPath("/media/audio/music/background.mp3"), 0.2);
+    }
+  }, [gameState.state, playBackground]);
 
   useEffect(() => {
     preloadCache(audioFiles);
@@ -324,6 +341,9 @@ const App: React.FC = () => {
                 updateData.completedLevels = [...gameState.completedLevels, currentLvlIndex];
             }
             updateData[`levelPoints.${currentLvlIndex}`] = holePoints;
+            // Explicitly store Par and Hit for verification
+            updateData[`levelStats.${currentLvlIndex}.par`] = currentLevel.par;
+            updateData[`levelStats.${currentLvlIndex}.hit`] = finalStrokes;
         }
 
         // Track best scores
@@ -368,15 +388,17 @@ const App: React.FC = () => {
         };
       });
 
-      if (connected && address) {
-        const userDoc = doc(db, 'users', address);
-        updateDoc(userDoc, {
-          totalPoints: increment(holePoints),
-          [`levelPoints.${currentIdx}`]: holePoints,
-          completedLevels: [...gameState.completedLevels, currentIdx],
-          lastSeen: serverTimestamp()
-        }).catch(e => console.error("Error updating Firestore points for late NFT:", e));
-      }
+        if (connected && address) {
+          const userDoc = doc(db, 'users', address);
+          updateDoc(userDoc, {
+            totalPoints: increment(holePoints),
+            [`levelPoints.${currentIdx}`]: holePoints,
+            [`levelStats.${currentIdx}.par`]: levelObj.par,
+            [`levelStats.${currentIdx}.hit`]: gameState.strokes,
+            completedLevels: [...gameState.completedLevels, currentIdx],
+            lastSeen: serverTimestamp()
+          }).catch(e => console.error("Error updating Firestore points for late NFT:", e));
+        }
     }
   }, [meetsNFTRequirement, gameState.state, gameState.performanceGoalMet, gameState.currentLevelIndex, connected, address]);
 
@@ -475,6 +497,8 @@ const App: React.FC = () => {
   useEffect(() => {
     if (gameState.state === 'GAME_OVER') {
       playForeground(getPath("/media/audio/sfx/global/win.mp3"));
+    } else if (gameState.state === 'LEVEL_COMPLETE') {
+      playForeground(getPath("/media/audio/sfx/minigolf/goal.mp3"));
     }
   }, [gameState.state, playForeground]);
 
@@ -567,6 +591,8 @@ const App: React.FC = () => {
             arcticLoading={arcticLoading}
             arcticData={arcticData}
             shortAddress={shortAddress}
+            playForeground={playForeground}
+            getPath={getPath}
           />
         </div>
 
@@ -587,6 +613,8 @@ const App: React.FC = () => {
             prevLevel={prevLevel}
             retryLevel={retryLevel}
             nextLevel={nextLevel}
+            playForeground={playForeground}
+            getPath={getPath}
           />
         </div>
       </>

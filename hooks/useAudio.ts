@@ -12,24 +12,26 @@ export default function useAudio() {
   const fgSource = useRef<HTMLAudioElement | null>(null);
   const audioCache = useRef<Record<string, HTMLAudioElement>>({});
   const [bgPlaying, setBgPlaying] = useState(false);
-  const soundEnabled = true
+  const [soundEnabled, setSoundEnabled] = useState(() => {
+    const saved = localStorage.getItem('puff_sound_enabled');
+    return saved === null ? true : saved === 'true';
+  });
 
   useEffect(() => {
+    localStorage.setItem('puff_sound_enabled', String(soundEnabled));
     if (bgSource.current) {
       bgSource.current.muted = !soundEnabled;
     }
-    if (fgSource.current) {
-      fgSource.current.muted = !soundEnabled;
-    }
   }, [soundEnabled]);
 
-  const playBackground = (path: string, volume = 0.5) => {
+  const playBackground = (path: string, volume = 0.4) => {
     // check if we are already playing the same background music
     if (bgSource.current && bgSource.current.src.endsWith(path)) {
       if (!bgPlaying && soundEnabled) {
         bgSource.current.play().catch(err => console.error("Audio playback failed:", err));
         setBgPlaying(true);
       }
+      bgSource.current.volume = volume;
       return;
     }
 
@@ -42,6 +44,7 @@ export default function useAudio() {
     const audio = new Audio(path);
     audio.loop = true;
     audio.volume = volume;
+    audio.muted = !soundEnabled;
     if (soundEnabled) {
       audio.play().catch(err => console.error("Audio playback failed:", err));
     }
@@ -74,7 +77,11 @@ export default function useAudio() {
 
   const toggleBackgroundPause = useCallback(() => {
     if (!bgSource.current) return;
-    bgPlaying ? bgSource.current.pause() : bgSource.current.play();
+    if (bgPlaying) {
+      bgSource.current.pause();
+    } else {
+      bgSource.current.play().catch(err => console.error("Audio playback failed:", err));
+    }
     setBgPlaying(prev => !prev);
   }, [bgPlaying]);
 
@@ -105,7 +112,7 @@ export default function useAudio() {
     return () => {
       document.removeEventListener("visibilitychange", handleVisiblityChange);
     };
-  },[])
+  }, [pauseBackground, resumeBackground]);
 
   const stopAll = () => {
     bgSource.current?.pause();
@@ -131,6 +138,8 @@ export default function useAudio() {
     playForeground,
     stopAll,
     toggleBackgroundPause,
-    preloadCache
+    preloadCache,
+    soundEnabled,
+    setSoundEnabled
   };
 }

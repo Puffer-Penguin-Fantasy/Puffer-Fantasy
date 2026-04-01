@@ -12,6 +12,8 @@ interface ActionButtonsProps {
   prevLevel: () => void;
   retryLevel: () => void;
   nextLevel: () => void;
+  playForeground: (url: string) => void;
+  getPath: (path: string) => string;
 }
 
 const btnBase =
@@ -19,7 +21,7 @@ const btnBase =
 
 const ActionButtons: React.FC<ActionButtonsProps> = ({
   gameState, showsNextLevelWarning, nextLevelReqCount, nextLevelLoading,
-  isEligibleToPlay, prevLevel, retryLevel, nextLevel
+  isEligibleToPlay, prevLevel, retryLevel, nextLevel, playForeground, getPath
 }) => {
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -84,20 +86,34 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
       {hasAnyButton && (
         <div className="hidden sm:flex flex-row gap-2 pointer-events-auto items-center">
           {showPrev && (
-            <button onClick={prevLevel}
+            <button 
+              onClick={() => {
+                playForeground(getPath("/media/audio/sfx/global/buttonclick.mp3"));
+                prevLevel();
+              }}
               className="h-10 px-6 bg-white/10 text-white hover:bg-white/20 rounded-xl flex items-center justify-center gap-2 transition-all active:scale-95 shadow-xl font-tech font-bold text-[10px] uppercase tracking-widest border border-white/10 backdrop-blur-md">
               Previous Level
             </button>
           )}
           {showReplay && (
-            <button onClick={retryLevel} title="Replay Level"
+            <button 
+              onClick={() => {
+                playForeground(getPath("/media/audio/sfx/global/buttonclick.mp3"));
+                retryLevel();
+              }} 
+              title="Replay Level"
               className="h-10 px-4 bg-white/10 hover:bg-white/20 text-white rounded-xl border border-white/10 flex items-center gap-2 transition-all active:scale-95 shadow-xl backdrop-blur-md">
               <RotateCcw className="w-4 h-4" />
               <span className="text-[10px] font-tech uppercase tracking-widest font-bold">Replay</span>
             </button>
           )}
           {showNext && (
-            <button onClick={nextLevel} disabled={nextLevelLoading}
+            <button 
+              onClick={() => {
+                playForeground(getPath("/media/audio/sfx/global/buttonclick.mp3"));
+                nextLevel();
+              }} 
+              disabled={nextLevelLoading}
               className="h-10 px-6 bg-[#1a1a1a] text-white hover:bg-[#252525] rounded-xl flex items-center justify-center gap-2 transition-all active:scale-95 shadow-2xl font-tech font-bold text-[10px] uppercase tracking-widest border border-white/10 cursor-pointer">
               {nextLevelLoading ? <Loader2 className="animate-spin w-4 h-4" /> : 'Next Level'}
             </button>
@@ -132,7 +148,10 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
                         ease: [0.23, 1, 0.32, 1],
                         delay: (subButtons.length - 1 - i) * 0.07,
                       }}
-                      onClick={btn.onClick}
+                      onClick={() => {
+                        playForeground(getPath("/media/audio/sfx/global/buttonclick.mp3"));
+                        btn.onClick();
+                      }}
                       className={
                         btn.bright
                           ? 'h-9 px-4 bg-[#1a1a1a] text-white hover:bg-[#252525] rounded-xl flex items-center gap-1.5 transition-all active:scale-95 shadow-2xl font-tech font-bold text-[9px] uppercase tracking-widest border border-white/10 whitespace-nowrap cursor-pointer'
@@ -150,7 +169,10 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
 
           {/* Trigger */}
           <motion.button
-            onClick={() => setMenuOpen(o => !o)}
+            onClick={() => {
+              playForeground(getPath("/media/audio/sfx/global/buttonclick.mp3"));
+              setMenuOpen(o => !o);
+            }}
             whileTap={{ scale: 0.9 }}
             className="w-9 h-9 bg-white/10 hover:bg-white/20 border border-white/10 backdrop-blur-md rounded-xl flex items-center justify-center text-white shadow-xl transition-colors cursor-pointer"
             style={{ zIndex: 210 }}

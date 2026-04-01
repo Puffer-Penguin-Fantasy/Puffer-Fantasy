@@ -25,13 +25,16 @@ interface GameOverlayProps {
   arcticLoading: boolean;
   arcticData: any;
   shortAddress: string | null;
+  playForeground: (url: string) => void;
+  getPath: (path: string) => string;
 }
 
 const GameOverlay: React.FC<GameOverlayProps> = ({
   gameState, setGameState, currentLevel, countdownValue, LEVELS_LENGTH,
   userCount, meetsNFTRequirement, meetsTotalPointsRequirement, calculateLevelPoints,
   showsNextLevelWarning, nextLevelReqCount, nextLevelLoading, isEligibleToPlay,
-  retryLevel, nextLevel, resetGame, totalPar, connected, arcticLoading, arcticData, shortAddress
+  retryLevel, nextLevel, resetGame, totalPar, connected, arcticLoading, arcticData, shortAddress,
+  playForeground, getPath
 }) => {
   const getScoreTerm = (strokes: number, par: number) => {
     if (strokes === 1) return { term: "Hole-in-one", color: "text-black" };
@@ -180,7 +183,11 @@ const GameOverlay: React.FC<GameOverlayProps> = ({
                         
                         return (
                           <button 
-                            onClick={canAdvance ? nextLevel : retryLevel}
+                            onClick={() => {
+                              playForeground(getPath("/media/audio/sfx/global/buttonclick.mp3"));
+                              if (canAdvance) nextLevel();
+                              else retryLevel();
+                            }}
                             disabled={nextLevelLoading}
                             className={`w-full h-16 rounded-2xl font-tech font-bold text-lg flex items-center justify-center transition-all active:scale-95 shadow-lg border
                               ${canAdvance 
@@ -200,7 +207,10 @@ const GameOverlay: React.FC<GameOverlayProps> = ({
                       })()}
 
                       <button 
-                        onClick={() => setGameState(prev => ({ ...prev, state: 'HOME_SCREEN', strokes: 0 }))}
+                        onClick={() => {
+                          playForeground(getPath("/media/audio/sfx/global/buttonclick.mp3"));
+                          setGameState(prev => ({ ...prev, state: 'HOME_SCREEN', strokes: 0 }));
+                        }}
                         className="w-full text-white/40 hover:text-white/60 font-tech text-xs uppercase tracking-widest transition-colors py-2"
                       >
                         Cancel and return to home
@@ -228,7 +238,10 @@ const GameOverlay: React.FC<GameOverlayProps> = ({
                    </div>
                    
                    <button 
-                       onClick={retryLevel}
+                       onClick={() => {
+                         playForeground(getPath("/media/audio/sfx/global/buttonclick.mp3"));
+                         retryLevel();
+                       }}
                        className="w-full h-[70px] bg-red-600 hover:bg-red-500 text-white font-tech rounded-2xl text-[18px] transition-all active:scale-95 flex items-center justify-center gap-3 shadow-[0_0_30px_rgba(239,68,68,0.3)] hover:shadow-[0_0_40px_rgba(239,68,68,0.4)] mb-4"
                    >
                        <RotateCcw className="w-5 h-5" />
@@ -236,7 +249,10 @@ const GameOverlay: React.FC<GameOverlayProps> = ({
                    </button>
 
                    <button 
-                     onClick={() => setGameState(prev => ({ ...prev, state: 'HOME_SCREEN', strokes: 0 }))}
+                     onClick={() => {
+                        playForeground(getPath("/media/audio/sfx/global/buttonclick.mp3"));
+                        setGameState(prev => ({ ...prev, state: 'HOME_SCREEN', strokes: 0 }));
+                     }}
                      className="w-full text-white/40 hover:text-white/60 font-tech text-xs uppercase tracking-widest transition-colors py-2"
                    >
                      Cancel and return to home
@@ -290,14 +306,20 @@ const GameOverlay: React.FC<GameOverlayProps> = ({
 
                 <div className="flex flex-col gap-4">
                   <button 
-                      onClick={resetGame}
+                      onClick={() => {
+                        playForeground(getPath("/media/audio/sfx/global/buttonclick.mp3"));
+                        resetGame();
+                      }}
                       className="w-full bg-white text-black hover:opacity-80 leading-none py-[22px] px-[22px] min-w-[175px] lg:min-w-[206px] rounded-full font-medium flex items-center justify-center gap-2 transition-transform active:scale-95 mb-4"
                   >
                       Play again
                   </button>
 
                   <button 
-                    onClick={() => setGameState(prev => ({ ...prev, state: 'HOME_SCREEN', strokes: 0, currentLevelIndex: 0 }))}
+                    onClick={() => {
+                      playForeground(getPath("/media/audio/sfx/global/buttonclick.mp3"));
+                      setGameState(prev => ({ ...prev, state: 'HOME_SCREEN', strokes: 0, currentLevelIndex: 0 }));
+                    }}
                     className="w-full text-white/40 hover:text-white/60 font-tech text-xs uppercase tracking-widest transition-colors py-2"
                   >
                     Back to menu

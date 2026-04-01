@@ -10,8 +10,8 @@ service cloud.firestore {
         request.resource.data.keys().hasAll(['totalPoints', 'lastSeen']) &&
         request.resource.data.totalPoints is number &&
         request.resource.data.totalPoints >= 0 &&
-        // Allow updating progress fields and granular points
-        (request.resource.data.keys().hasAny(['completedLevels', 'bestScores', 'levelPoints']) || true);
+        // Allow updating progress fields, granular points, and stats
+        (request.resource.data.keys().hasAny(['completedLevels', 'bestScores', 'levelPoints', 'levelStats']) || true);
     }
   }
 }

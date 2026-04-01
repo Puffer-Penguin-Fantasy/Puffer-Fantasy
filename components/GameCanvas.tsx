@@ -632,6 +632,9 @@ const GameCanvas: React.FC<GameCanvasProps> = ({ level, onStroke, onHole, disabl
             sandTilesRef.current.forEach(t => {
                 if (b.pos.x >= t.x && b.pos.x <= t.x + TILE_SIZE &&
                     b.pos.y >= t.y && b.pos.y <= t.y + TILE_SIZE) {
+                    if (appliedFriction !== SAND_FRICTION && speed > 2) {
+                        playForeground(getPath("/media/audio/sfx/minigolf/sand.mp3"), 0.3);
+                    }
                     appliedFriction = SAND_FRICTION;
                 }
             });
@@ -649,6 +652,9 @@ const GameCanvas: React.FC<GameCanvasProps> = ({ level, onStroke, onHole, disabl
               if (dist < TILE_SIZE && 
                   b.pos.x >= t.x && b.pos.x <= t.x + TILE_SIZE &&
                   b.pos.y >= t.y && b.pos.y <= t.y + TILE_SIZE) {
+                  if (appliedFriction !== SAND_FRICTION && speed > 2) {
+                      playForeground(getPath("/media/audio/sfx/minigolf/sand.mp3"), 0.3);
+                  }
                   appliedFriction = SAND_FRICTION;
               }
             });
@@ -684,7 +690,7 @@ const GameCanvas: React.FC<GameCanvasProps> = ({ level, onStroke, onHole, disabl
                 if (b.pos.x >= t.x && b.pos.x <= t.x + TILE_SIZE &&
                     b.pos.y >= t.y && b.pos.y <= t.y + TILE_SIZE) {
                     if (speed < SINK_THRESHOLD) {
-                      // TODO (jsylvester): use splash audio (pending)
+                        playForeground(getPath("/media/audio/sfx/minigolf/watersplash.mp3"), 0.7);
                         b.pos.x = startPosRef.current!.x;
                         b.pos.y = startPosRef.current!.y;
                         b.vel.x = 0; b.vel.y = 0; b.isMoving = false;
@@ -708,7 +714,7 @@ const GameCanvas: React.FC<GameCanvasProps> = ({ level, onStroke, onHole, disabl
                     b.pos.x >= t.x && b.pos.x <= t.x + TILE_SIZE &&
                     b.pos.y >= t.y && b.pos.y <= t.y + TILE_SIZE) {
                     if (speed < SINK_THRESHOLD) {
-                        // TODO (jsylvester): use splash audio (pending)
+                        playForeground(getPath("/media/audio/sfx/minigolf/watersplash.mp3"), 0.7);
                         b.pos.x = startPosRef.current!.x;
                         b.pos.y = startPosRef.current!.y;
                         b.vel.x = 0; b.vel.y = 0; b.isMoving = false;
@@ -824,7 +830,7 @@ const GameCanvas: React.FC<GameCanvasProps> = ({ level, onStroke, onHole, disabl
                       b.isMoving = true;
                       d.scale = 1.4;
                       d.targetScale = 1;
-                      playForeground(getPath("/media/audio/sfx/minigolf/hitwall.mp3"));
+                      playForeground(getPath("/media/audio/sfx/minigolf/hitwall.mp3"), 0.8);
                   }
                 } else if (d.type === 'TREX') {
                   const minDist = b.radius + d.radius * 0.6;

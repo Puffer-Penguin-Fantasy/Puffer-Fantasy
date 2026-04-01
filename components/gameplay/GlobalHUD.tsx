@@ -1,5 +1,6 @@
 import React from 'react';
-import { Loader2, User, Check, Lock } from 'lucide-react';
+import { Loader2, User, Check, Lock, Volume2, VolumeX } from 'lucide-react';
+import useAudio from '../../hooks/useAudio';
 import { GameState, LevelData } from '../../types';
 
 interface GlobalHUDProps {
@@ -19,6 +20,7 @@ const GlobalHUD: React.FC<GlobalHUDProps> = ({
   gameState, setGameState, currentLevel, isEligibleToPlay, meetsNFTRequirement,
   meetsTotalPointsRequirement, arcticLoading, arcticData, playForeground, getPath
 }) => {
+  const { soundEnabled, setSoundEnabled } = useAudio();
   if (gameState.state === 'START_SCREEN' || gameState.state === 'HOME_SCREEN' || gameState.state === 'LEVEL_SELECT') return null;
 
     return (
@@ -52,6 +54,17 @@ const GlobalHUD: React.FC<GlobalHUDProps> = ({
               </span>
             </div>
           </div>
+
+          <button 
+            onClick={() => {
+              playForeground(getPath("/media/audio/sfx/global/buttonclick.mp3"));
+              setSoundEnabled(!soundEnabled);
+            }}
+            className="ml-2 w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center bg-black/40 backdrop-blur-md rounded-xl border border-white/10 text-white/60 hover:text-white hover:bg-black/60 transition-all pointer-events-auto active:scale-95"
+            title={soundEnabled ? "Mute Sound" : "Unmute Sound"}
+          >
+            {soundEnabled ? <Volume2 size={18} /> : <VolumeX size={18} />}
+          </button>
         </div>
 
         {/* Bottom Row: Eligibility Badge */}
