@@ -1,0 +1,36 @@
+{
+  "name": "puffer-fantasy",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@11ty/eleventy-plugin-vite": "^7.0.0",
+    "@google/genai": "^1.38.0",
+    "@razorlabs/razorkit": "^1.1.2",
+    "@react-three/drei": "^10.7.7",
+    "@react-three/fiber": "^9.5.0",
+    "@vitejs/plugin-react": "^5.1.2",
+    "firebase": "^12.11.0",
+    "lucide-react": "^0.563.0",
+    "motion": "^12.38.0",
+    "react": "^19.2.4",
+    "react-device-detect": "^2.2.3",
+    "react-dom": "^19.2.4",
+    "three": "^0.182.0",
+    "vite": "^7.3.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.2.2",
+    "@types/node": "^22.14.0",
+    "@vitejs/plugin-react": "^5.0.0",
+    "tailwindcss": "^4.2.2",
+    "typescript": "~5.8.2",
+    "vite": "^6.2.0"
+  }
+}
