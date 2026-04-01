@@ -17,7 +17,7 @@ interface ActionButtonsProps {
 }
 
 const btnBase =
-  'h-9 px-4 bg-white/10 hover:bg-white/20 text-white rounded-xl border border-white/10 flex items-center justify-end gap-1.5 transition-all active:scale-95 shadow-xl backdrop-blur-md font-tech font-bold text-[9px] uppercase tracking-widest whitespace-nowrap cursor-pointer w-full';
+  'h-9 px-4 bg-[#0a0a0a] hover:bg-[#1a1a1a] text-white rounded-xl border border-white/10 flex items-center justify-end gap-1.5 transition-all active:scale-95 shadow-xl font-tech font-bold text-[9px] uppercase tracking-widest whitespace-nowrap cursor-pointer w-full';
 
 const ActionButtons: React.FC<ActionButtonsProps> = ({
   gameState, showsNextLevelWarning, nextLevelReqCount, nextLevelLoading,
@@ -77,7 +77,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
 
       {/* Requirement Warning */}
       {showsNextLevelWarning && (
-        <div className="bg-red-500/10 border border-red-500/20 text-red-400 text-[8px] sm:text-[10px] font-tech uppercase tracking-widest px-3 py-1.5 rounded-lg backdrop-blur-md animate-pulse pointer-events-auto">
+        <div className="bg-red-950/80 border border-red-500/40 text-red-400 text-[8px] sm:text-[10px] font-tech uppercase tracking-widest px-3 py-1.5 rounded-lg animate-pulse pointer-events-auto shadow-2xl">
           ⚠️ Next level needs {nextLevelReqCount}+ NFTs
         </div>
       )}
@@ -91,7 +91,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
                 playForeground(getPath("/media/audio/sfx/global/buttonclick.mp3"));
                 prevLevel();
               }}
-              className="h-10 px-6 bg-white/10 text-white hover:bg-white/20 rounded-xl flex items-center justify-center gap-2 transition-all active:scale-95 shadow-xl font-tech font-bold text-[10px] uppercase tracking-widest border border-white/10 backdrop-blur-md">
+              className="h-10 px-6 bg-[#0a0a0a] text-white hover:bg-[#1a1a1a] rounded-xl flex items-center justify-center gap-2 transition-all active:scale-95 shadow-xl font-tech font-bold text-[10px] uppercase tracking-widest border border-white/10">
               Previous Level
             </button>
           )}
@@ -102,7 +102,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
                 retryLevel();
               }} 
               title="Replay Level"
-              className="h-10 px-4 bg-white/10 hover:bg-white/20 text-white rounded-xl border border-white/10 flex items-center gap-2 transition-all active:scale-95 shadow-xl backdrop-blur-md">
+              className="h-10 px-4 bg-[#0a0a0a] hover:bg-[#1a1a1a] text-white rounded-xl border border-white/10 flex items-center gap-2 transition-all active:scale-95 shadow-xl">
               <RotateCcw className="w-4 h-4" />
               <span className="text-[10px] font-tech uppercase tracking-widest font-bold">Replay</span>
             </button>
@@ -174,7 +174,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
               setMenuOpen(o => !o);
             }}
             whileTap={{ scale: 0.9 }}
-            className="w-9 h-9 bg-white/10 hover:bg-white/20 border border-white/10 backdrop-blur-md rounded-xl flex items-center justify-center text-white shadow-xl transition-colors cursor-pointer"
+            className="w-9 h-9 bg-[#0a0a0a] hover:bg-[#1a1a1a] border border-white/10 rounded-xl flex items-center justify-center text-white shadow-xl transition-colors cursor-pointer"
             style={{ zIndex: 210 }}
           >
             <AnimatePresence mode="wait" initial={false}>
@@ -201,7 +201,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
 
       {/* Failure Indication */}
       {showGoalFailed && (
-        <div className="h-8 sm:h-10 px-3 sm:px-4 bg-red-500/20 text-red-400 border border-red-500/30 rounded-xl flex items-center gap-1.5 sm:gap-2 backdrop-blur-md self-end pointer-events-auto">
+        <div className="h-8 sm:h-10 px-3 sm:px-4 bg-red-950/90 text-red-400 border border-red-500/30 rounded-xl flex items-center gap-1.5 sm:gap-2 self-end pointer-events-auto shadow-2xl">
           <Lock className="w-3 h-3 sm:w-4 sm:h-4" />
           <span className="text-[8px] sm:text-[10px] font-tech uppercase tracking-widest font-bold">Goal Not Met</span>
         </div>

@@ -1,0 +1,90 @@
+﻿commit fa210189a6bb144a8e780c009ef96697b23b1dd9
+Author: NileDex <152003924+NileDex@users.noreply.github.com>
+Date:   Wed Apr 1 06:59:24 2026 +0100
+
+    fix borderand background issues
+
+diff --git a/App.tsx b/App.tsx
+index 6e58800..1e015fc 100644
+--- a/App.tsx
++++ b/App.tsx
+@@ -524,7 +524,7 @@ const App: React.FC = () => {
+ 
+     {(gameState.state !== 'START_SCREEN' && gameState.state !== 'HOME_SCREEN' && gameState.state !== 'LEVEL_SELECT') && (
+       <>
+-        <div className="w-full h-[calc(100%-100px)] bg-black font-sans overflow-hidden relative rounded-2xl">
++        <div className="w-full h-[calc(100%-100px)] bg-black font-sans overflow-hidden relative">
+           <GameCanvas 
+               key={`${currentLevel.id}-${retryCount}`}
+               level={currentLevel}
+@@ -538,10 +538,10 @@ const App: React.FC = () => {
+           
+           {/* Missing NFT Lock Overlay */}
+           {!meetsNFTRequirement && !arcticLoading && connected && gameState.state === 'AIMING' && (
+-             <div className="absolute inset-0 bg-black/60 backdrop-blur-sm flex flex-col items-center justify-center p-6 text-center z-50">
++             <div className="absolute inset-0 bg-black/80 backdrop-blur-sm flex flex-col items-center justify-center p-6 text-center z-50">
+                <Lock className="w-8 h-8 sm:w-12 sm:h-12 text-red-500 mb-2 sm:mb-4" />
+                <h3 className="text-xl sm:text-2xl font-gaming text-white tracking-widest uppercase mb-1 sm:mb-2">Level Locked</h3>
+-               <p className="text-white/60 font-tech text-xs sm:text-base">You must hold {currentLevel.exactNFTMatch ? 'exactly' : 'at least'} {currentLevel.requiredNFTCount || 1} NFT{(currentLevel.requiredNFTCount || 1) !== 1 ? 's' : ''} to play this level.</p>
++               <p className="text-white/80 font-tech text-xs sm:text-base">You must hold {currentLevel.exactNFTMatch ? 'exactly' : 'at least'} {currentLevel.requiredNFTCount || 1} NFT{(currentLevel.requiredNFTCount || 1) !== 1 ? 's' : ''} to play this level.</p>
+              </div>
+           )}
+ 
+diff --git a/components/GameCanvas.tsx b/components/GameCanvas.tsx
+index d4b918e..e54c283 100644
+--- a/components/GameCanvas.tsx
++++ b/components/GameCanvas.tsx
+@@ -904,7 +904,8 @@ const GameCanvas: React.FC<GameCanvasProps> = ({ level, onStroke, onHole, disabl
+     };
+ 
+     ctx.save();
+-    ctx.clearRect(0, 0, canvas.width, canvas.height);
++    ctx.fillStyle = '#000';
++    ctx.fillRect(0, 0, canvas.width, canvas.height);
+     
+     // ctx.fillStyle = COLORS.GRASS_DARK;
+     // ctx.fillRect(0, 0, canvas.width, canvas.height);
+@@ -1359,7 +1360,7 @@ const GameCanvas: React.FC<GameCanvasProps> = ({ level, onStroke, onHole, disabl
+   }, [update, render, isPreview]);
+ 
+   return (
+-    <div ref={containerRef} className={`w-full overflow-hidden bg-transparent ${isPreview ? 'relative h-full rounded-2xl pointer-events-none' : 'h-[calc(100%-100px)] fixed top-0 left-0'}`}>
++    <div ref={containerRef} className={`w-full overflow-hidden bg-transparent ${isPreview ? 'relative h-full rounded-2xl pointer-events-none' : 'h-full relative'}`}>
+       <canvas 
+         ref={canvasRef} 
+         style={{width: '100%', height: '100%', display: 'block' }}
+diff --git a/components/gameplay/ActionButtons.tsx b/components/gameplay/ActionButtons.tsx
+index 733b3c2..fb4a98e 100644
+--- a/components/gameplay/ActionButtons.tsx
++++ b/components/gameplay/ActionButtons.tsx
+@@ -98,7 +98,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
+           )}
+           {showNext && (
+             <button onClick={nextLevel} disabled={nextLevelLoading}
+-              className="h-10 px-6 bg-white text-black hover:bg-white/90 rounded-xl flex items-center justify-center gap-2 transition-all active:scale-95 shadow-2xl font-tech font-bold text-[10px] uppercase tracking-widest border border-white/20 cursor-pointer">
++              className="h-10 px-6 bg-[#1a1a1a] text-white hover:bg-[#252525] rounded-xl flex items-center justify-center gap-2 transition-all active:scale-95 shadow-2xl font-tech font-bold text-[10px] uppercase tracking-widest border border-white/10 cursor-pointer">
+               {nextLevelLoading ? <Loader2 className="animate-spin w-4 h-4" /> : 'Next Level'}
+             </button>
+           )}
+@@ -135,7 +135,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
+                       onClick={btn.onClick}
+                       className={
+                         btn.bright
+-                          ? 'h-9 px-4 bg-white text-black hover:bg-white/90 rounded-xl flex items-center gap-1.5 transition-all active:scale-95 shadow-2xl font-tech font-bold text-[9px] uppercase tracking-widest border border-white/20 whitespace-nowrap cursor-pointer'
++                          ? 'h-9 px-4 bg-[#1a1a1a] text-white hover:bg-[#252525] rounded-xl flex items-center gap-1.5 transition-all active:scale-95 shadow-2xl font-tech font-bold text-[9px] uppercase tracking-widest border border-white/10 whitespace-nowrap cursor-pointer'
+                           : btnBase
+                       }
+                     >
+diff --git a/components/gameplay/GameOverlay.tsx b/components/gameplay/GameOverlay.tsx
+index 3ce6a81..7f8854b 100644
+--- a/components/gameplay/GameOverlay.tsx
++++ b/components/gameplay/GameOverlay.tsx
+@@ -184,7 +184,7 @@ const GameOverlay: React.FC<GameOverlayProps> = ({
+                             disabled={nextLevelLoading}
+                             className={`w-full h-16 rounded-2xl font-tech font-bold text-lg flex items-center justify-center transition-all active:scale-95 shadow-lg border
+                               ${canAdvance 
+-                                ? 'bg-white text-black hover:bg-white/90 border-white/20' 
++                                ? 'bg-[#1a1a1a] text-white hover:bg-[#252525] border-white/10' 
+                                 : 'bg-red-600/20 text-red-500 border-red-500/30 hover:bg-red-600/30'
+                               }`}
+                           >

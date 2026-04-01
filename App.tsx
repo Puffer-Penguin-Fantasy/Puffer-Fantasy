@@ -539,7 +539,7 @@ const App: React.FC = () => {
 
     {(gameState.state !== 'START_SCREEN' && gameState.state !== 'HOME_SCREEN' && gameState.state !== 'LEVEL_SELECT') && (
       <>
-        <div className="w-full h-[calc(100dvh-100px)] bg-black font-sans overflow-hidden relative flex flex-col items-center justify-center">
+        <div className="w-full h-[calc(100%-100px)] bg-black font-sans overflow-hidden relative">
           <GameCanvas 
               key={`${currentLevel.id}-${retryCount}`}
               level={currentLevel}
@@ -588,7 +588,7 @@ const App: React.FC = () => {
         </div>
 
         {/* Bottom bar: Hole pill (left) + Action Buttons (right) */}
-        <div className="fixed bottom-0 left-0 right-0 h-[100px] flex items-center justify-between px-4 z-[150] pointer-events-none">
+        <div className="fixed bottom-0 left-0 right-0 h-[100px] bg-black border-t border-white/10 flex items-center justify-between px-4 z-[150] pointer-events-none">
           <div className="pointer-events-auto">
             <Footer
               gameState={gameState}

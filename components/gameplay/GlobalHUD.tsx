@@ -27,8 +27,8 @@ const GlobalHUD: React.FC<GlobalHUDProps> = ({
         {/* Top Row: Identity and Points */}
         <div className="flex items-center">
           {/* Large Square PFP Frame */}
-          <div className="relative z-20 w-16 h-16 sm:w-24 sm:h-24 rounded-2xl rainbow-border animate-rotate-gradient p-0.5 flex items-center justify-center bg-white/5 backdrop-blur-xl shadow-black/40 group overflow-hidden shrink-0">
-            <div className="w-full h-full rounded-2xl bg-black/20 flex items-center justify-center border border-white/10 overflow-hidden">
+          <div className="relative z-20 w-16 h-16 sm:w-24 sm:h-24 rounded-2xl rainbow-border animate-rotate-gradient p-0.5 flex items-center justify-center bg-[#0a0a0a] shadow-black/40 group overflow-hidden shrink-0">
+            <div className="w-full h-full rounded-2xl bg-[#0a0a0a] flex items-center justify-center border border-white/10 overflow-hidden">
               {arcticLoading ? (
                 <Loader2 className="w-6 h-6 sm:w-8 sm:h-8 text-white/40 animate-spin" />
               ) : (arcticData as any)?.hasNFT && (arcticData as any).nftDetails?.image ? (
@@ -45,7 +45,7 @@ const GlobalHUD: React.FC<GlobalHUDProps> = ({
           </div>
 
           {/* Attached Point Block Card */}
-          <div className="relative -ml-4 z-10 h-12 sm:h-16 pl-6 sm:pl-10 pr-4 sm:pr-8 flex flex-col justify-center bg-white/5 backdrop-blur-2xl border-y border-r border-white/10 rounded-r-2xl shadow-2xl">
+          <div className="relative -ml-4 z-10 h-12 sm:h-16 pl-6 sm:pl-10 pr-4 sm:pr-8 flex flex-col justify-center bg-[#0a0a0a] border-y border-r border-white/10 rounded-r-2xl shadow-2xl">
             <div className="flex flex-col gap-0 sm:gap-0.5">
               <span className="text-[8px] sm:text-[10px] font-tech text-white/40 uppercase tracking-[0.2em] leading-none whitespace-nowrap">Total Points</span>
               <span className="text-xl sm:text-3xl font-tech font-black text-white leading-none drop-shadow-md">
@@ -57,7 +57,7 @@ const GlobalHUD: React.FC<GlobalHUDProps> = ({
 
         {/* Bottom Row: Eligibility Badge */}
         <div className="flex flex-col items-start gap-2">
-          <div className={`px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl border backdrop-blur-md shadow-lg transition-all duration-300 ${
+          <div className={`px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl border shadow-lg transition-all duration-300 ${
             isEligibleToPlay 
               ? 'bg-green-500/10 border-green-500/20 text-green-400' 
               : 'bg-red-500/10 border-red-500/20 text-red-400'
@@ -88,7 +88,7 @@ const GlobalHUD: React.FC<GlobalHUDProps> = ({
 
           {/* Level 5+ Challenge Prompt Box */}
           {gameState.state === 'PRE_LAUNCH' && currentLevel.maxTime !== undefined && (
-            <div className="mt-2 p-4 rounded-xl bg-blue-600/20 border border-blue-500/30 backdrop-blur-xl shadow-2xl animate-in slide-in-from-top duration-500 max-w-[280px] pointer-events-auto">
+            <div className="mt-2 p-4 rounded-xl bg-[#0a0a0a] border border-blue-500/30 shadow-2xl animate-in slide-in-from-top duration-500 max-w-[280px] pointer-events-auto">
                <div className="flex items-center gap-2 mb-2">
                  <div className="p-1 rounded-md bg-blue-500/20 text-blue-400">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" className="w-4 h-4"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>

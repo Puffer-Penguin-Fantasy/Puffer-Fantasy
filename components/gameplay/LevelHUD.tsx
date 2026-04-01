@@ -19,14 +19,14 @@ const LevelHUD: React.FC<LevelHUDProps> = ({ level, strokes, timeLeft, exitCours
         {/* Desktop: Exit button sits to the left of the Level Card (before par number) */}
         <button
           onClick={exitCourse}
-          className="hidden sm:flex pointer-events-auto mr-2 items-center justify-center gap-2 h-12 sm:h-16 w-20 sm:w-24 rounded-xl sm:rounded-2xl bg-white/5 backdrop-blur-md border border-white/10 text-white/50 hover:text-white hover:border-white/30 transition-all active:scale-95 flex-col shadow-lg"
+          className="hidden sm:flex pointer-events-auto mr-2 items-center justify-center gap-2 h-12 sm:h-16 w-20 sm:w-24 rounded-xl sm:rounded-2xl bg-[#0a0a0a] border border-white/10 text-white/50 hover:text-white hover:border-white/30 transition-all active:scale-95 flex-col shadow-lg"
         >
           <LogOut className="w-4 h-4 sm:w-5 sm:h-5" />
           <span className="text-[7px] sm:text-[8px] font-tech uppercase tracking-widest leading-none">Exit</span>
         </button>
 
         {/* Level Card */}
-        <div className="relative -mr-4 h-12 sm:h-16 min-w-[110px] sm:min-w-[160px] pl-4 sm:pl-10 pr-6 sm:pr-10 flex flex-col justify-center bg-white/5 backdrop-blur-2xl border-y border-l border-white/10 rounded-l-2xl">
+        <div className="relative -mr-4 h-12 sm:h-16 min-w-[110px] sm:min-w-[160px] pl-4 sm:pl-10 pr-6 sm:pr-10 flex flex-col justify-center bg-[#0a0a0a] border-y border-l border-white/10 rounded-l-2xl">
           <div className="flex flex-col gap-0 sm:gap-0.5 items-end text-right">
             <span className="text-[8px] sm:text-[10px] font-tech text-white/40 uppercase tracking-[0.2em] leading-none whitespace-nowrap">
               {level.name}
@@ -53,8 +53,8 @@ const LevelHUD: React.FC<LevelHUDProps> = ({ level, strokes, timeLeft, exitCours
         </div>
 
         {/* Letter Square */}
-        <div className="relative z-10 w-16 h-16 sm:w-24 sm:h-24 rounded-xl sm:rounded-2xl rainbow-border animate-rotate-gradient p-0.5 flex items-center justify-center bg-white/5 shadow-black/40 overflow-hidden shrink-0">
-          <div className="w-full h-full rounded-xl sm:rounded-2xl bg-black/20 flex items-center justify-center border border-white/10 overflow-hidden">
+        <div className="relative z-10 w-16 h-16 sm:w-24 sm:h-24 rounded-xl sm:rounded-2xl rainbow-border animate-rotate-gradient p-0.5 flex items-center justify-center bg-[#0a0a0a] shadow-black/40 overflow-hidden shrink-0">
+          <div className="w-full h-full rounded-xl sm:rounded-2xl bg-[#0a0a0a] flex items-center justify-center border border-white/10 overflow-hidden">
             <span className="text-2xl sm:text-4xl font-gaming text-white/80 drop-shadow-lg">
               {level.letter}
             </span>
@@ -65,7 +65,7 @@ const LevelHUD: React.FC<LevelHUDProps> = ({ level, strokes, timeLeft, exitCours
       {/* Mobile: Exit button below the letter square – same width as the square (w-16) */}
       <button
         onClick={exitCourse}
-        className="sm:hidden pointer-events-auto flex items-center justify-center gap-1.5 w-16 h-7 rounded-xl bg-white/5 backdrop-blur-md border border-white/10 text-white/50 hover:text-white hover:border-white/30 transition-all active:scale-95 shadow-lg"
+        className="sm:hidden pointer-events-auto flex items-center justify-center gap-1.5 w-16 h-7 rounded-xl bg-[#0a0a0a] border border-white/10 text-white/50 hover:text-white hover:border-white/30 transition-all active:scale-95 shadow-lg"
       >
         <LogOut className="w-3 h-3" />
         <span className="text-[8px] font-tech uppercase tracking-wider leading-none">Exit</span>

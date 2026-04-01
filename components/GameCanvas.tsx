@@ -43,6 +43,7 @@ import { getPath } from "../utils/path";
 
 import { ICON_PATHS } from './Icons';
 import { PORTRAIT_SCALE_OVERRIDES } from '../Level';
+import VirtualJoystick from './gameplay/VirtualJoystick';
 
 interface BoostTile extends Vector2 {
   dx: number;
@@ -389,6 +390,24 @@ const GameCanvas: React.FC<GameCanvasProps> = ({ level, onStroke, onHole, disabl
     const { x, y } = getCanvasCoords(clientX, clientY);
     setDragCurrent({ x, y });
   }, [isAiming, dragStart]);
+
+  const handleJoystickStart = useCallback(() => {
+    if (disabled || !ballRef.current || ballRef.current.sunk || ballRef.current.teleportTimer > 0) return;
+    if (!ALLOW_HIT_WHILE_MOVING && ballRef.current.isMoving) return;
+    setIsAiming(true);
+    setDragStart({ x: ballRef.current.pos.x, y: ballRef.current.pos.y });
+    setDragCurrent({ x: ballRef.current.pos.x, y: ballRef.current.pos.y });
+    playForeground(getPath("/media/audio/sfx/global/buttonclick.mp3"));
+  }, [disabled]);
+
+  const handleJoystickMove = useCallback((dx: number, dy: number) => {
+    if (!ballRef.current) return;
+    const joystickScale = 1.7 / physicalScaleRef.current; 
+    setDragCurrent({ 
+      x: ballRef.current.pos.x + dx * joystickScale, 
+      y: ballRef.current.pos.y + dy * joystickScale 
+    });
+  }, []);
 
   const handleMouseUp = useCallback(() => {
     if (!isAiming || !dragStart || !dragCurrent || !ballRef.current) {
@@ -1374,6 +1393,13 @@ const GameCanvas: React.FC<GameCanvasProps> = ({ level, onStroke, onHole, disabl
         onMouseDown={!isPreview ? handleMouseDown : undefined} 
         onTouchStart={!isPreview ? handleMouseDown : undefined}
       />
+      {!isPreview && (
+        <VirtualJoystick 
+          onJoystickStart={handleJoystickStart}
+          onJoystickMove={handleJoystickMove}
+          onJoystickEnd={handleMouseUp}
+        />
+      )}
     </div>
   );
 };
