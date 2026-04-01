@@ -12,17 +12,14 @@ export default function useAudio() {
   const fgSource = useRef<HTMLAudioElement | null>(null);
   const audioCache = useRef<Record<string, HTMLAudioElement>>({});
   const [bgPlaying, setBgPlaying] = useState(false);
-  const [soundEnabled, setSoundEnabled] = useState(() => {
-    const saved = localStorage.getItem('puff_sound_enabled');
-    return saved === null ? true : saved === 'true';
-  });
+  const soundEnabled = true; // Always enabled per user request
+  const setSoundEnabled = () => {}; // No-op to avoid breaking types if used elsewhere
 
   useEffect(() => {
-    localStorage.setItem('puff_sound_enabled', String(soundEnabled));
     if (bgSource.current) {
-      bgSource.current.muted = !soundEnabled;
+      bgSource.current.muted = false;
     }
-  }, [soundEnabled]);
+  }, []);
 
   const playBackground = (path: string, volume = 0.4) => {
     // check if we are already playing the same background music

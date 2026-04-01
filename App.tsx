@@ -29,25 +29,19 @@ import { db } from './services/firebase';
 import { doc, getDoc, updateDoc, increment, serverTimestamp, setDoc } from 'firebase/firestore';
 
 const App: React.FC = () => {
-  const [gameState, setGameState] = useState<GameState>(() => {
-    const savedLevel = localStorage.getItem('puffer_last_level');
-    const rawIndex = savedLevel !== null ? parseInt(savedLevel, 10) : 0;
-    const initialIndex = isNaN(rawIndex) ? 0 : Math.min(Math.max(0, rawIndex), LEVELS.length - 1);
-    
-    return {
-      currentLevelIndex: initialIndex,
-      strokes: 0,
-      totalScore: 0,
-      points: 0,
-      lastHolePoints: 0,
-      state: 'START_SCREEN',
-      bestScores: {},
-      levelPoints: {},
-      completedLevels: [],
-      resetUnlocked: false,
-      isEligibleToAdvance: false,
-      performanceGoalMet: false,
-    };
+  const [gameState, setGameState] = useState<GameState>({
+    currentLevelIndex: 0,
+    strokes: 0,
+    totalScore: 0,
+    points: 0,
+    lastHolePoints: 0,
+    state: 'START_SCREEN',
+    bestScores: {},
+    levelPoints: {},
+    completedLevels: [],
+    resetUnlocked: false,
+    isEligibleToAdvance: false,
+    performanceGoalMet: false,
   });
   
   const [retryCount, setRetryCount] = useState(0);
@@ -63,9 +57,6 @@ const App: React.FC = () => {
   const currentLevel = LEVELS[gameState.currentLevelIndex];
 
   // Persist current level across page reloads
-  useEffect(() => {
-    localStorage.setItem('puffer_last_level', gameState.currentLevelIndex.toString());
-  }, [gameState.currentLevelIndex]);
 
   // Initialize/Reset Timer when level changes or is retried
   useEffect(() => {
@@ -160,7 +151,7 @@ const App: React.FC = () => {
 
   const totalPar = LEVELS.reduce((acc, l) => acc + l.par, 0);
 
-  const { playForeground, playBackground, preloadCache, soundEnabled, setSoundEnabled } = useAudio();
+  const { playForeground, playBackground, preloadCache } = useAudio();
 
   const audioFiles = [
     getPath("/media/audio/sfx/global/lose.mp3"),
@@ -548,7 +539,7 @@ const App: React.FC = () => {
 
     {(gameState.state !== 'START_SCREEN' && gameState.state !== 'HOME_SCREEN' && gameState.state !== 'LEVEL_SELECT') && (
       <>
-        <div className="w-full h-[calc(100%-100px)] bg-black font-sans overflow-hidden relative">
+        <div className="w-full h-[calc(100dvh-100px)] bg-black font-sans overflow-hidden relative flex flex-col items-center justify-center">
           <GameCanvas 
               key={`${currentLevel.id}-${retryCount}`}
               level={currentLevel}

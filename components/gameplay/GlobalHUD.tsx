@@ -1,9 +1,9 @@
 import React from 'react';
-import { Loader2, User, Check, Lock, Volume2, VolumeX } from 'lucide-react';
-import useAudio from '../../hooks/useAudio';
+import { Loader2, User, Check, Lock } from 'lucide-react';
 import { GameState, LevelData } from '../../types';
 
 interface GlobalHUDProps {
+  // ... (rest of the interface)
   gameState: GameState;
   setGameState: React.Dispatch<React.SetStateAction<GameState>>;
   currentLevel: LevelData;
@@ -20,7 +20,6 @@ const GlobalHUD: React.FC<GlobalHUDProps> = ({
   gameState, setGameState, currentLevel, isEligibleToPlay, meetsNFTRequirement,
   meetsTotalPointsRequirement, arcticLoading, arcticData, playForeground, getPath
 }) => {
-  const { soundEnabled, setSoundEnabled } = useAudio();
   if (gameState.state === 'START_SCREEN' || gameState.state === 'HOME_SCREEN' || gameState.state === 'LEVEL_SELECT') return null;
 
     return (
@@ -28,8 +27,8 @@ const GlobalHUD: React.FC<GlobalHUDProps> = ({
         {/* Top Row: Identity and Points */}
         <div className="flex items-center">
           {/* Large Square PFP Frame */}
-          <div className="relative z-20 w-16 h-16 sm:w-24 sm:h-24 rounded-2xl rainbow-border animate-rotate-gradient p-0.5 flex items-center justify-center bg-black/80 shadow-black/40 group overflow-hidden shrink-0">
-            <div className="w-full h-full rounded-2xl bg-[#0d0d0d] flex items-center justify-center border border-white/5 overflow-hidden">
+          <div className="relative z-20 w-16 h-16 sm:w-24 sm:h-24 rounded-2xl rainbow-border animate-rotate-gradient p-0.5 flex items-center justify-center bg-white/5 backdrop-blur-xl shadow-black/40 group overflow-hidden shrink-0">
+            <div className="w-full h-full rounded-2xl bg-black/20 flex items-center justify-center border border-white/10 overflow-hidden">
               {arcticLoading ? (
                 <Loader2 className="w-6 h-6 sm:w-8 sm:h-8 text-white/40 animate-spin" />
               ) : (arcticData as any)?.hasNFT && (arcticData as any).nftDetails?.image ? (
@@ -46,7 +45,7 @@ const GlobalHUD: React.FC<GlobalHUDProps> = ({
           </div>
 
           {/* Attached Point Block Card */}
-          <div className="relative -ml-4 z-10 h-12 sm:h-16 pl-6 sm:pl-10 pr-4 sm:pr-8 flex flex-col justify-center bg-black/60 backdrop-blur-xl border-y border-r border-white/10 rounded-r-2xl shadow-2xl">
+          <div className="relative -ml-4 z-10 h-12 sm:h-16 pl-6 sm:pl-10 pr-4 sm:pr-8 flex flex-col justify-center bg-white/5 backdrop-blur-2xl border-y border-r border-white/10 rounded-r-2xl shadow-2xl">
             <div className="flex flex-col gap-0 sm:gap-0.5">
               <span className="text-[8px] sm:text-[10px] font-tech text-white/40 uppercase tracking-[0.2em] leading-none whitespace-nowrap">Total Points</span>
               <span className="text-xl sm:text-3xl font-tech font-black text-white leading-none drop-shadow-md">
@@ -54,17 +53,6 @@ const GlobalHUD: React.FC<GlobalHUDProps> = ({
               </span>
             </div>
           </div>
-
-          <button 
-            onClick={() => {
-              playForeground(getPath("/media/audio/sfx/global/buttonclick.mp3"));
-              setSoundEnabled(!soundEnabled);
-            }}
-            className="ml-2 w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center bg-black/40 backdrop-blur-md rounded-xl border border-white/10 text-white/60 hover:text-white hover:bg-black/60 transition-all pointer-events-auto active:scale-95"
-            title={soundEnabled ? "Mute Sound" : "Unmute Sound"}
-          >
-            {soundEnabled ? <Volume2 size={18} /> : <VolumeX size={18} />}
-          </button>
         </div>
 
         {/* Bottom Row: Eligibility Badge */}
