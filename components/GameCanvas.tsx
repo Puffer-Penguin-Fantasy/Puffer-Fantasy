@@ -904,7 +904,8 @@ const GameCanvas: React.FC<GameCanvasProps> = ({ level, onStroke, onHole, disabl
     };
 
     ctx.save();
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = '#000';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
     
     // ctx.fillStyle = COLORS.GRASS_DARK;
     // ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -1359,7 +1360,7 @@ const GameCanvas: React.FC<GameCanvasProps> = ({ level, onStroke, onHole, disabl
   }, [update, render, isPreview]);
 
   return (
-    <div ref={containerRef} className={`w-full overflow-hidden bg-transparent ${isPreview ? 'relative h-full rounded-2xl pointer-events-none' : 'h-[calc(100%-100px)] fixed top-0 left-0'}`}>
+    <div ref={containerRef} className={`w-full overflow-hidden bg-transparent ${isPreview ? 'relative h-full rounded-2xl pointer-events-none' : 'h-full relative'}`}>
       <canvas 
         ref={canvasRef} 
         style={{width: '100%', height: '100%', display: 'block' }}

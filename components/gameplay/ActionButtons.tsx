@@ -98,7 +98,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
           )}
           {showNext && (
             <button onClick={nextLevel} disabled={nextLevelLoading}
-              className="h-10 px-6 bg-white text-black hover:bg-white/90 rounded-xl flex items-center justify-center gap-2 transition-all active:scale-95 shadow-2xl font-tech font-bold text-[10px] uppercase tracking-widest border border-white/20 cursor-pointer">
+              className="h-10 px-6 bg-[#1a1a1a] text-white hover:bg-[#252525] rounded-xl flex items-center justify-center gap-2 transition-all active:scale-95 shadow-2xl font-tech font-bold text-[10px] uppercase tracking-widest border border-white/10 cursor-pointer">
               {nextLevelLoading ? <Loader2 className="animate-spin w-4 h-4" /> : 'Next Level'}
             </button>
           )}
@@ -135,7 +135,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
                       onClick={btn.onClick}
                       className={
                         btn.bright
-                          ? 'h-9 px-4 bg-white text-black hover:bg-white/90 rounded-xl flex items-center gap-1.5 transition-all active:scale-95 shadow-2xl font-tech font-bold text-[9px] uppercase tracking-widest border border-white/20 whitespace-nowrap cursor-pointer'
+                          ? 'h-9 px-4 bg-[#1a1a1a] text-white hover:bg-[#252525] rounded-xl flex items-center gap-1.5 transition-all active:scale-95 shadow-2xl font-tech font-bold text-[9px] uppercase tracking-widest border border-white/10 whitespace-nowrap cursor-pointer'
                           : btnBase
                       }
                     >

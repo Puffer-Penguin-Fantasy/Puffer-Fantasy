@@ -524,7 +524,7 @@ const App: React.FC = () => {
 
     {(gameState.state !== 'START_SCREEN' && gameState.state !== 'HOME_SCREEN' && gameState.state !== 'LEVEL_SELECT') && (
       <>
-        <div className="w-full h-[calc(100%-100px)] bg-black font-sans overflow-hidden relative rounded-2xl">
+        <div className="w-full h-[calc(100%-100px)] bg-black font-sans overflow-hidden relative">
           <GameCanvas 
               key={`${currentLevel.id}-${retryCount}`}
               level={currentLevel}
@@ -538,10 +538,10 @@ const App: React.FC = () => {
           
           {/* Missing NFT Lock Overlay */}
           {!meetsNFTRequirement && !arcticLoading && connected && gameState.state === 'AIMING' && (
-             <div className="absolute inset-0 bg-black/60 backdrop-blur-sm flex flex-col items-center justify-center p-6 text-center z-50">
+             <div className="absolute inset-0 bg-black/80 backdrop-blur-sm flex flex-col items-center justify-center p-6 text-center z-50">
                <Lock className="w-8 h-8 sm:w-12 sm:h-12 text-red-500 mb-2 sm:mb-4" />
                <h3 className="text-xl sm:text-2xl font-gaming text-white tracking-widest uppercase mb-1 sm:mb-2">Level Locked</h3>
-               <p className="text-white/60 font-tech text-xs sm:text-base">You must hold {currentLevel.exactNFTMatch ? 'exactly' : 'at least'} {currentLevel.requiredNFTCount || 1} NFT{(currentLevel.requiredNFTCount || 1) !== 1 ? 's' : ''} to play this level.</p>
+               <p className="text-white/80 font-tech text-xs sm:text-base">You must hold {currentLevel.exactNFTMatch ? 'exactly' : 'at least'} {currentLevel.requiredNFTCount || 1} NFT{(currentLevel.requiredNFTCount || 1) !== 1 ? 's' : ''} to play this level.</p>
              </div>
           )}
 

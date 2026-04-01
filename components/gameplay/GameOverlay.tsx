@@ -184,7 +184,7 @@ const GameOverlay: React.FC<GameOverlayProps> = ({
                             disabled={nextLevelLoading}
                             className={`w-full h-16 rounded-2xl font-tech font-bold text-lg flex items-center justify-center transition-all active:scale-95 shadow-lg border
                               ${canAdvance 
-                                ? 'bg-white text-black hover:bg-white/90 border-white/20' 
+                                ? 'bg-[#1a1a1a] text-white hover:bg-[#252525] border-white/10' 
                                 : 'bg-red-600/20 text-red-500 border-red-500/30 hover:bg-red-600/30'
                               }`}
                           >
